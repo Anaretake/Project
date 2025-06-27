@@ -12,6 +12,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Меню',
       home: const MyHomePage(),
+       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }
@@ -21,20 +24,20 @@ class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  State<MyHomePage> createState() => MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
-   TextEditingController nameController = TextEditingController();
-   TextEditingController surnameController = TextEditingController();
-   TextEditingController patronymicController = TextEditingController();
+class _MyHomePageState extends State<MyHomePage> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _patronymicController = TextEditingController();
 
   String fullName = '';
 
   void _submit() {
-    String name = nameController.text;
-    String surname = surnameController.text;
-    String patronymic = patronymicController.text;
+    String name = _nameController.text;
+    String surname = _surnameController.text;
+    String patronymic = _patronymicController.text;
 
     if (name.isEmpty || surname.isEmpty || patronymic.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -61,7 +64,7 @@ class MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 400,
               child: TextField(
-                controller: nameController,
+                controller: _nameController,
                 textAlign: TextAlign.center,
                 decoration:InputDecoration(hintText: 'Введите имя')
               ),
@@ -70,7 +73,7 @@ class MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 400,
               child: TextField(
-                controller: surnameController,
+                controller: _surnameController,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(hintText: 'Введите фамилию')
               ),
@@ -79,7 +82,7 @@ class MyHomePageState extends State<MyHomePage> {
             SizedBox(
               width: 400,
               child: TextField(
-                controller: patronymicController,
+                controller: _patronymicController,
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(hintText: 'Введите отчество')
                 ),
