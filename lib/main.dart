@@ -1,6 +1,17 @@
+import 'dart:io';
+import 'package:project_1/my_home_page.dart';
+import 'package:window_size/window_size.dart';
 import 'package:flutter/material.dart';
 
+import 'package:project_1/theme.dart';
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Platform.isWindows|| Platform.isLinux || Platform.isMacOS){
+    setWindowTitle('Menu');
+    setWindowMaxSize(Size(1200,800));
+    setWindowMinSize(Size(800, 600));
+  }
   runApp(const MyApp());
 }
 
@@ -11,91 +22,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Меню',
+
       home: const MyHomePage(),
-       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueGrey),
-      ),
+       theme: appTheme,
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _surnameController = TextEditingController();
-  final TextEditingController _patronymicController = TextEditingController();
-
-  String fullName = '';
-
-  void _submit() {
-    String name = _nameController.text;
-    String surname = _surnameController.text;
-    String patronymic = _patronymicController.text;
-
-    if (name.isEmpty || surname.isEmpty || patronymic.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Заполните все поля')),
-      );
-    } else {
-      setState(() {
-        fullName = '$surname $name $patronymic'; 
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (fullName.isNotEmpty) ...[
-              Text(fullName),
-              SizedBox(height: 20),
-            ],
-            SizedBox(
-              width: 400,
-              child: TextField(
-                controller: _nameController,
-                textAlign: TextAlign.center,
-                decoration:InputDecoration(hintText: 'Введите имя')
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: 400,
-              child: TextField(
-                controller: _surnameController,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(hintText: 'Введите фамилию')
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: 400,
-              child: TextField(
-                controller: _patronymicController,
-                textAlign: TextAlign.center,
-                decoration: InputDecoration(hintText: 'Введите отчество')
-                ),
-              ),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: _submit,
-              child:Text('Ввод'),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
- 
-}
